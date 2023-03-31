@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Image Uploader</title>
+    <style>
+      /* Center the content */
+      body {
+        align-items: center;
+        justify-content: center;
+      }
+
+       #main-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* Style the form */
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        padding: 20px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Style the file input */
+      input[type="file"] {
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+      
+      /* Style the preview image */
+      #preview-image {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      /* Style the submit button */
+      input[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div id = "main-body">
+      
+        <form method="post" enctype="multipart/form-data" id="upload-file" action="{{ url_for('upload')}}">
+          <h1>Car Model Classification</h1> 
+          <input type="file" name="image" id="image-input" accept="image/*">
+            <img id="preview-image">
+            <input type="submit" value="Upload Image">
+            <div display="inline-block">
+                <h3>{{prediction_text}}</h3>
+            </div>
+          </form>
+          <br><br>
+          
+    </div>
+    
+   
+    <script>
+      // Get the file input element
+      const fileInput = document.getElementById("image-input");
+      
+      // Get the preview image element
+      const previewImage = document.getElementById("preview-image");
+      
+      // Listen for changes to the file input
+      fileInput.addEventListener("change", () => {
+        // Get the uploaded file
+        const file = fileInput.files[0];
+        
+        // Create a FileReader object
+        const reader = new FileReader();
+        
+        // Listen for the FileReader to load the file
+        reader.addEventListener("load", () => {
+          // Set the source of the preview image to the uploaded file
+          previewImage.src = reader.result;
+        });
+        
+        // Read the uploaded file as a data URL
+        reader.readAsDataURL(file);
+      });
+    </script>
+  </body>
+</html>
